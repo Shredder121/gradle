@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.gradle.api.tasks.compile;
+package org.gradle.api.tasks.compile
 
+import org.gradle.api.internal.tasks.compile.processing.IncrementalAnnotationProcessorType;
 import org.gradle.integtests.fixtures.AbstractIntegrationSpec
 import org.gradle.integtests.fixtures.CompilationOutputsFixture
 import org.gradle.language.fixtures.AnnotationProcessorFixture
 
-class NonIncrementalAnnotationProcessingIntegrationTest extends AbstractIntegrationSpec {
+class SimpleIncrementalAnnotationProcessingIntegrationTest extends AbstractIntegrationSpec {
 
     CompilationOutputsFixture outputs
 
@@ -53,6 +54,7 @@ class NonIncrementalAnnotationProcessingIntegrationTest extends AbstractIntegrat
         """
 
         def fixture = new AnnotationProcessorFixture()
+        fixture.type = IncrementalAnnotationProcessorType.SIMPLE
         fixture.writeSupportLibraryTo(annotationProcessorProjectDir)
         fixture.writeApiTo(annotationProcessorProjectDir)
         fixture.writeAnnotationProcessorTo(annotationProcessorProjectDir)
@@ -95,6 +97,6 @@ class NonIncrementalAnnotationProcessingIntegrationTest extends AbstractIntegrat
 
         then:
         output.contains("The following annotation processors don't support incremental compilation:")
-        output.contains("Processor (type: NON_INCREMENTAL)")
+        output.contains("Processor (type: SIMPLE)")
     }
 }
